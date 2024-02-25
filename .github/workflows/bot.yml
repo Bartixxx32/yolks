@@ -8,6 +8,10 @@ on:
       - master
     paths:
       - bot/**
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  
 jobs:
   pushArm:
     name: "yolks:bot_${{ matrix.tag }}"
@@ -38,9 +42,9 @@ jobs:
             ${{ runner.os }}-buildx-
       - uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.REGISTRY_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v5
         with:
           context: ./bot/${{ matrix.tag }}
