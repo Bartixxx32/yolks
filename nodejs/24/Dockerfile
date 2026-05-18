@@ -6,6 +6,9 @@ LABEL       author="Michael Parker" maintainer="parker@pterodactyl.io"
 RUN         useradd -m -d /home/container container
 STOPSIGNAL SIGINT
 
+COPY --from=mwader/static-ffmpeg:latest /ffmpeg /usr/local/bin/
+COPY --from=mwader/static-ffmpeg:latest /ffprobe /usr/local/bin/
+
 RUN         apt update \
             && apt -y install \
                 ffmpeg \
